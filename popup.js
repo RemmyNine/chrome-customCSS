@@ -146,47 +146,6 @@ async function applyCssToTab(tabId, css) {
     }
 }
 
-/**
- * Removes previously injected CSS from a specific tab.
- * This relies on the background script potentially having injected CSS before.
- * Note: `removeCSS` requires the *exact* CSS that was inserted.
- * Since the background script and popup might inject independently,
- * this is tricky. A common approach is to wrap injected CSS in a known ID,
- * but `insertCSS` doesn't directly support adding IDs.
- * A simpler approach for now is to just try inserting, which often overrides
- * or adds styles. For explicit removal, more complex tracking or messaging
- * between background and popup would be needed.
- *
- * **Improvement:** Instead of removing, let's just insert. The browser handles
- * cascading styles. If the user clears, we save an empty string, and the
- * background script won't inject anything on next load. Immediate removal
- * is harder without more state management. Let's just rely on saving ""
- * and letting the background script handle it on next navigation/reload.
- *
- * **Update:** Let's try removing *all* CSS potentially inserted by the extension.
- * This might be overly broad if other extensions use `insertCSS`, but is the
- * simplest way to attempt cleanup without complex tracking. The `origin` property
- * in Manifest V3 might help target this better in the future, but for now,
- * we'll rely on the background script re-applying the correct CSS on load.
- *
- * **Revisiting `removeCSS`:** `removeCSS` takes the *same* parameters as `insertCSS`.
- * We don't know the exact CSS the background script might have injected.
- *
- * **Final Approach:** Let's stick to `insertCSS` from the popup for immediate effect.
- * If the user clears, we save empty CSS. The background script handles applying
- * the *correct* (potentially empty) CSS on subsequent loads/navigations.
- * We won't explicitly *remove* CSS from the popup, just overwrite/insert.
- * Let's refine `applyCssToTab` to handle empty CSS correctly (do nothing).
- * And add a separate `removeCssFromTab` for the 'Clear' button.
- *
- * To make `removeCSS` work reliably from the popup *after* the background
- * might have injected, we need to know the CSS the background injected.
- * Let's simplify: The popup ONLY applies the *current* text area content.
- * The background script ONLY applies the *saved* content on load.
- * When 'Clear' is pressed, we save "" and *attempt* to remove the *current*
- * text area content from the page (which might not match what's actually active).
- * This is imperfect but avoids complex state sharing.
- */
 async function removeCssFromTab(tabId) {
     // Get the CSS that *was* potentially applied (based on current text area)
     // This is imperfect if the background script applied different CSS.
