@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Domain CSS</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            width: 350px; /* Increased width */
+            padding: 15px;
+            background-color: #f4f4f9;
+        }
+        h3 {
+            margin-top: 0;
+            color: #333;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        #domainDisplay {
+            font-weight: bold;
+            color: #0056b3; /* Changed color */
+            background-color: #e9ecef;
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            word-wrap: break-word; /* Ensure long domains wrap */
+            border: 1px solid #ced4da;
+        }
+        textarea {
+            width: 100%;
+            box-sizing: border-box; /* Include padding and border in width */
+            min-height: 150px; /* Increased height */
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: monospace;
+            resize: vertical; /* Allow vertical resize */
+        }
+        button {
+            padding: 10px 15px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s ease;
+        }
+        #saveButton {
+            background-color: #28a745; /* Green */
+            color: white;
+        }
+        #saveButton:hover {
+            background-color: #218838;
+        }
+        #clearButton {
+            background-color: #dc3545; /* Red */
+            color: white;
+        }
+        #clearButton:hover {
+            background-color: #c82333;
+        }
+        #status {
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: green;
+            text-align: center;
+            min-height: 1.2em; /* Reserve space */
+        }
+    </style>
+</head>
+<body>
+    <h3>Custom CSS for Domain</h3>
+    <label for="domainDisplay">Current Domain:</label>
+    <div id="domainDisplay">Loading...</div>
+
+    <label for="cssInput">Enter Custom CSS:</label>
+    <textarea id="cssInput" placeholder="e.g., body { background-color: lightblue !important; }"></textarea>
+
+    <button id="saveButton">Save CSS</button>
+    <button id="clearButton">Clear CSS for this Domain</button>
+
+    <div id="status"></div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
